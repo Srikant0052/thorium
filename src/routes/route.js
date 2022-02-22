@@ -1,12 +1,12 @@
-let obj = require('../logger/logger1');
-let help = require('../util/helper');
+let obj = require('./logger');
+// let help = require('../util/helper');
 
 const express = require('express');
-const { chunk } = require('lodash');
-const { tail } = require('lodash');
-const { union } = require('lodash');
-const { fromPairs } = require('lodash');
-const lodash = require('lodash');
+// const { chunk } = require('lodash');
+// const { tail } = require('lodash');
+// const { union } = require('lodash');
+// const { fromPairs } = require('lodash');
+// const lodash = require('lodash');
 const router = express.Router();
 
 router.get('/test-me', function (req, res) {
@@ -15,44 +15,58 @@ router.get('/test-me', function (req, res) {
     res.send('Welcome to FunctionUp. I am Srikant Kr. Mahato and a part of Thorium')
 });
 
-router.get('/hi', function (req, res) {
-    help.currentDate('Thorium')
-    console.log(help)
-    res.send('Welcome to FunctionUp. I am Srikant Kr. Mahato and a part of Thorium')
+router.get('/movies', function (req, res) {
+    let movieList = ['Krish', 'Dhadkan', 'Dhoom', 'Pushpa']
+    console.log(movieList)
+    res.send(movieList)
 });
 
-router.get('/hello', function (req, res) {
-    let month = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-    console.log(lodash.chunk(month,4))
-    res.send('Welcome to FunctionUp. I am Srikant Kr. Mahato and a part of Thorium')
+router.get('/movies/:movieId', function (req, res) {
+     movieList = ['Krish', 'Dhadkan', 'Dhoom', 'Pushpa']
+     let value = req.params.movieId;
+
+         if(value>movieList.length -1){
+             res.send(" Type a valid index")
+         }else{
+             res.send(movieList[value])
+         }
+   
 });
 
-router.get('/hello1', function (req, res) {
-    let oddNumber =[1,3,5,7,9,11,13,15,17,19]
-    console.log(lodash.tail(oddNumber))
-
-    res.send('Welcome to FunctionUp. I am Srikant Kr. Mahato and a part of Thorium')
+router.get('/movies1', function (req, res) {
+    const movie1 =[ {
+        id: 1,
+        name: 'The Shining'
+       }, {
+        id: 2,
+        name: 'Incendies'
+       }, {
+        id: 3,
+        name: 'Rang de Basanti'
+       }, {
+        id: 4,
+        name: 'Finding Demo'
+       }]
+       
+    res.send(movie1)
 });
 
-router.get('/hello2', function (req, res) {
-    let aar1 =[1,2,3]
-    let aar2 =[3,4,5]
-    let aar3 =[5,6,7]
-    let aar4 =[7,8,9]
-    let aar5 =[9,10,11]
-    console.log(lodash.union(oddNumber))
-
-    res.send('Welcome to FunctionUp. I am Srikant Kr. Mahato and a part of Thorium')
+router.get('/films/:filmId', function (req, res) {
+    const movie1 =[ {  id: 1,name: 'The Shining'}, { id: 2,name: 'Incendies'}, {id: 3,name: 'Rang de Basanti'}, { id: 4, name: 'Finding Demo'}]
+    let value = req.params.filmId;
+    let found = false;
+    for(let i=0; i<movie1.length; i++){
+        if(movie1[i].id == value){
+            found = true
+            res.send(movie1[i])
+            break
+        }
+    }
+    if(found == false){
+        res.send('No movie exists with this id')
+    }
+    // res.send()
 });
-
-router.get('/hello3', function (req, res) {
- const movie =  [ ['horror' ,'The Shining'],['drama','Titanic'],['thriller','Shutter Islnd'],['fantasy','Pans Labyrinth']]
-
-    console.log(lodash.fromPairs(movie))
-
-    res.send('Welcome to FunctionUp. I am Srikant Kr. Mahato and a part of Thorium')
-});
-
 
 
 module.exports = router;
