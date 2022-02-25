@@ -1,46 +1,59 @@
 const express = require('express');
 const router = express.Router();
 
-// QUERY PARAMS
-// localhost:3000/get-query-1?myCoolVar=24&xyz=hiFunctionUP
-router.get("/get-query-1", function (req, res) {
-    let data = req.query
-    console.log(data)
-    res.send({ data: data, status: true })
-})
 
 
-// take marks in req.query variable named "marks" and send "pass" if > 40 else "fail"
-router.get("/get-query-2", function (req, res) {
-    let marks = req.query.marks
-    // { marks: '80'}
 
-    let result = marks > 40 ? "pass" : "fail"
-    // let result = "fail"
-    // if (marks> 40) { result = "pass" }
-    // // else { result = "fail" }
 
-    res.send({ result: result, status: true })
-})
+let persons = [
+    {
+        name: "PK",
+        age: 10,
+        votingStatus: false
+    },
+    {
+        name: "SK",
+        age: 20,
+        votingStatus: false
+    },
+    {
+        name: "AA",
+        age: 70,
+        votingStatus: false
+    },
+    {
+        name: "SC",
+        age: 5,
+        votingStatus: false
+    },
+    {
+        name: "HO",
+        age: 40,
+        votingStatus: false
+    },
+    {
+        name: "SM",
+        age: 19,
+        votingStatus: false
+    }
+]
 
-//query params are also available in post request
-router.post("/post-query-1", function (req, res) {
-    let data = req.query
-    console.log(data)
-    res.send({ result: data, status: true })
-})
+router.post("/voting-age", function (req, res) {
+    let input = req.query.input;
+    let person1 = [];
+    for (let i = 0; i < persons.length; i++) {
+        if (persons[i].age > input) {
+            person1.push(persons[i])
+            // console.log(person1)     
 
-let myArr = [23, 45, 67, 281394, 32424, 423, 24, 42323, 4, 234, 12, 34]
-//filter out all the numbers that are greater than input( input is received from query params)
-router.post("/post-query-2", function (req, res) {
-    //CODE HERE
-    let input= req.query.input
-    let finalArr= myArr.filter( ele => ele > input)
-    // let finalArr=[]
-    // for (i=0 ; i<myArr.length; i++) {
-    //     if ( myArr[i] > input )      finalArr.push(myArr[i]) 
-    // }
-    res.send({ result: finalArr , status: true })
+
+        }
+    }
+    for (let j = 0; j < person1.length; j++)
+        person1[j].votingStatus = true
+    res.send({ result: person1, status: true })
+    // console.log(persons)     
+
 })
 
 
@@ -50,33 +63,7 @@ router.post("/post-query-2", function (req, res) {
 // also return an array consisting of only the person that can vote
 
 //  take this as sample for array of persons:
-// let persons= [
-//     {
-//     name: "PK",
-//     age: 10,
-//     votingStatus: false
-// },
-// {
-//     name: "SK",
-//     age: 20,
-//     votingStatus: false
-// },
-// {
-//     name: "AA",
-//     age: 70,
-//     votingStatus: false
-// },
-// {
-//     name: "SC",
-//     age: 5,
-//     votingStatus: false
-// },
-// {
-//     name: "HO",
-//     age: 40,
-//     votingStatus: false
-// }
-// ]
+
 
 
 
