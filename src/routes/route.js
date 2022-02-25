@@ -2,71 +2,102 @@ let obj = require('./logger');
 // let help = require('../util/helper');
 
 const express = require('express');
-// const { chunk } = require('lodash');
-// const { tail } = require('lodash');
-// const { union } = require('lodash');
-// const { fromPairs } = require('lodash');
-// const lodash = require('lodash');
+
 const router = express.Router();
 
-router.get('/test-me', function (req, res) {
-    obj.printMessage('thorium')
-    console.log(obj.url)
-    res.send('Welcome to FunctionUp. I am Srikant Kr. Mahato and a part of Thorium')
-});
+let player = [
+    {
+        "name": "manish",
+        "dob": "1/1/1995",
+        "gender": "male",
+        "city": "jalandhar",
+        "sports": [
+            "swimming"
+        ],
+        "bookings": [
+            {
+                'bookingId': 1,
+                'sportId': 5,
+                'centerId': 65,
+                'type': 'private',
+                'slot': 16286598000000,
+                'bookedOn': '31/08/2021',
+                'bookedFor': '01/09/2021'
+            }
 
-router.get('/movies', function (req, res) {
-    let movieList = ['Krish', 'Dhadkan', 'Dhoom', 'Pushpa']
-    console.log(movieList)
-    res.send(movieList)
-});
+        ]
+    },
 
-router.get('/movies/:movieId', function (req, res) {
-     movieList = ['Krish', 'Dhadkan', 'Dhoom', 'Pushpa']
-     let value = req.params.movieId;
+    {
+        "name": "rahul",
+        "dob": "1/10/1995",
+        "gender": "male",
+        "city": "mumbai",
+        "sports": [
+            "cricket"
+        ],
+        "bookings": [
 
-         if(value>movieList.length -1){
-             res.send(" Type a valid index")
-         }else{
-             res.send(movieList[value])
-         }
-   
-});
+        ]
+    },
 
-router.get('/movies1', function (req, res) {
-    const movie1 =[ {
-        id: 1,
-        name: 'The Shining'
-       }, {
-        id: 2,
-        name: 'Incendies'
-       }, {
-        id: 3,
-        name: 'Rang de Basanti'
-       }, {
-        id: 4,
-        name: 'Finding Demo'
-       }]
-       
-    res.send(movie1)
-});
+    {
+        "name": "virat",
+        "dob": "1/1/1990",
+        "gender": "male",
+        "city": "delhi",
+        "sports": [
+            "cricket"
+        ],
+        "bookings": [
+        ]
+    }
 
-router.get('/films/:filmId', function (req, res) {
-    const movie1 =[ {  id: 1,name: 'The Shining'}, { id: 2,name: 'Incendies'}, {id: 3,name: 'Rang de Basanti'}, { id: 4, name: 'Finding Demo'}]
-    let value = req.params.filmId;
-    let found = false;
-    for(let i=0; i<movie1.length; i++){
-        if(movie1[i].id == value){
-            found = true
-            res.send(movie1[i])
-            break
+
+]
+
+
+
+
+router.post("/player", function (req, res) {
+    // let arr= [ 12, "functionup"]
+    let input = req.body.element;
+    for (let i = 0; i < player.length; i++) {
+        if (player[i].name == input.name) {
+            res.send("player already exists")
+
+        } else {
+
+            player.push(input)
+            res.send({ msg: player, status: true })
         }
     }
-    if(found == false){
-        res.send('No movie exists with this id')
-    }
-    // res.send()
-});
 
+    console.log(player)
+})
+
+
+
+router.post("/players/:playerName/bookings/:bookingId", function (req, res) {
+    // let arr= [ 12, "functionup"]
+    const playerName = req.params.playerName
+    const bookingId = req.params.bookingId
+    let input = req.body.element;
+    for (let i = 0; i < player.length; i++) {
+        if (player[i].name === playerName) {
+            if (player[i].bookings.bookingId != bookingId) {
+                player[i].bookings.push(input)
+                res.send({ msg: player, status: true })
+            } else {
+
+                res.send("duplicat booking")
+
+            }
+        } 
+    }
+    res.send("player doesnot exists")
+
+    // console.log(player)
+})
 
 module.exports = router;
