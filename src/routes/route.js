@@ -40,17 +40,21 @@ let persons = [
 
 router.post("/voting-age", function (req, res) {
     let input = req.query.input;
-    let person1 = [];
-    for (let i = 0; i < persons.length; i++) {
-        if (persons[i].age > input) {
-            person1.push(persons[i])
-            // console.log(person1)     
+    // let person1 = [];
+    const person1 = persons.filter(elem => elem.age > input)
+    // for (let i = 0; i < persons.length; i++) {
+    //     if (persons[i].age > input) {
+    //         person1.push(persons[i])
+    //         // console.log(person1)     
 
 
-        }
-    }
-    for (let j = 0; j < person1.length; j++)
-        person1[j].votingStatus = true
+    //     }
+    // }
+
+    person1.map((elem, i) => person1[i].votingStatus = true )
+    const result =  person1.map((elem, i) => elem.votingStatus = true )
+    // for (let j = 0; j < person1.length; j++)
+    //     person1[j].votingStatus = true
     res.send({ result: person1, status: true })
     // console.log(persons)     
 
