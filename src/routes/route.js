@@ -1,5 +1,6 @@
 let obj = require('../logger/logger1');
 let help = require('../util/helper');
+const formatter = require('../validator/formatter')
 
 const express = require('express');
 const { chunk } = require('lodash');
@@ -16,8 +17,17 @@ router.get('/test-me', function (req, res) {
 });
 
 router.get('/hi', function (req, res) {
-    help.currentDate('Thorium')
-    console.log(help)
+    help.currentDate()
+    help.printCurrentMonth()
+    help.printBatchInfo()
+    // console.log(help)
+    res.send('Welcome to FunctionUp. I am Srikant Kr. Mahato and a part of Thorium')
+});
+
+router.get('/hi1', function (req, res) {
+    formatter.trim()
+    formatter.changeToLowerCase()
+    formatter.changeToUpperCase()
     res.send('Welcome to FunctionUp. I am Srikant Kr. Mahato and a part of Thorium')
 });
 
