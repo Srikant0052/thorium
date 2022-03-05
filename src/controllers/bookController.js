@@ -2,6 +2,7 @@ const { count } = require("console")
 const publisherModel = require("../models/publisherModel")
 const authorModel = require("../models/authorModel")
 const bookModel= require("../models/bookModel")
+const { Z_ASCII } = require("zlib")
 
 const createBook= async function (req, res) {
     let book = req.body
@@ -28,12 +29,30 @@ const getBooksData= async function (req, res) {
     res.send({data: allBooks})
 }
 
-// const getBooksWithAuthorDetails = async function (req, res) {
-//     let specificBook = await bookModel.find().populate('author_id')
-//     res.send({data: specificBook})
 
-// }
+const updateBooks= async function (req, res) {
+    let hardCoverPublishers = await publisherModel.find({
+        name: { $in : ["Penguin", "HarperCollins"]},
+    })
+    let publisherIds = hardCoverPublishers.map((ele) => ele._id)
+     
+    await bookModel.updateMany(
+        {publisherId : {$in : publisherIds}},
+        {isHardcover : true},
+        {new : true}
+    )
+     let changedPrice = await authorModel.find({rating:{$gt:3.5}})
+     let authorIds = changedPrice.map((ele) => ele._id)
+
+     await bookModel.updateMany({authorId : { $in: authorIds}},
+        {$inc:{price: 10}});
+        
+       let updatedBooks = await bookModel.find()//.populate('authorId  publisherId' );                             
+    res.send({UpdatedData: updatedBooks});
+}
+
 
 module.exports.createBook= createBook
 module.exports.getBooksData= getBooksData
+module.exports.updateBooks= updateBooks
 // module.exports.getBooksWithAuthorDetails = getBooksWithAuthorDetails
