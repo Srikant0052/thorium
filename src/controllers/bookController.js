@@ -31,24 +31,28 @@ const getBooksData= async function (req, res) {
 
 
 const updateBooks= async function (req, res) {
-    let hardCoverPublishers = await publisherModel.find({
-        name: { $in : ["Penguin", "HarperCollins"]},
-    })
-    let publisherIds = hardCoverPublishers.map((ele) => ele._id)
+    
+    // let hardCoverPublishers = await publisherModel.find({
+    // name: { $in : ["Penguin", "HarperCollins"]},
+    // })
+    // let publisherIds = hardCoverPublishers.map((ele) => ele._id)
+    const publisherIds = await publisherModel.find({name :{$in :["HarperCollins","Penguin" ]}}).select({_id:1})
+    
      
     await bookModel.updateMany(
-        {publisherId : {$in : publisherIds}},
-        {isHardcover : true},
-        {new : true}
+        {publisherId : {$in : [publisherIds[0]["_id"], publisherIds[1]["_id"]]}},
+        {isHardCover : true}
+        
     )
-     let changedPrice = await authorModel.find({rating:{$gt:3.5}})
-     let authorIds = changedPrice.map((ele) => ele._id)
+    //  let changedPrice = await authorModel.find({rating:{$gt:3.5}})
+    //  let authorIds = changedPrice.map((ele) => ele._id)
 
-     await bookModel.updateMany({authorId : { $in: authorIds}},
-        {$inc:{price: 10}});
+    //  await bookModel.updateMany({authorId : { $in: authorIds}},
+    //     {$inc:{price: 10}});
         
        let updatedBooks = await bookModel.find()//.populate('authorId  publisherId' );                             
     res.send({UpdatedData: updatedBooks});
+    // res.send(publisherIds);
 }
 
 
