@@ -21,7 +21,7 @@ const createUser = async function (req, res) {
 const loginUser = async function (req, res) {
   try {
     if (req.body && req.body.emailId && req.body.password) {
-      let user = await userModel.findOne({ emailId: userName, password: password });
+      let user = await userModel.findOne({ emailId: req.body.emailId, password: req.body.password });
       if (user) {
 
         let token = jwt.sign(
@@ -45,7 +45,7 @@ const loginUser = async function (req, res) {
       res.status(400).send({ status: false, msg: "Request body must contain userId and Password" })
     }
   } catch (error) {
-    req.status(500).send({ status: false, msg: error.message })
+    res.status(500).send({ status: false, msg: error.message })
   }
 }
 const getUserData = async function (req, res) {
