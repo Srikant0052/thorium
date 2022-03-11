@@ -12,9 +12,7 @@ const authenticate = function (req, res, next) {
   if (!decodedToken)
     return res.send({ status: false, msg: "token is invalid" });
 
-
-    
-    next();
+    next(); 
 };
 
 const authorise = function(req, res, next) {
