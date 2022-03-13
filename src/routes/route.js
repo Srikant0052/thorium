@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const CowinController= require("../controllers/cowinController")
+const weatherController= require("../controllers/weatherController")
 
 
 
@@ -12,6 +13,11 @@ router.get("/test-me", function (req, res) {
 router.get("/cowin/states", CowinController.getStates)
 router.get("/cowin/districtsInState/:stateId", CowinController.getDistricts)
 router.get("/cowin/getByPin", CowinController.getByPin)
+router.get("/cowin/findByDistrict", CowinController.getByDistricts)
+router.get("/weatherForcast", weatherController.getByCity)
+router.get("/getWeatherSorted", weatherController.getWeatherOfCities)
+router.get("/get_memes", weatherController.allMemes)
+router.post("/memes", weatherController.memeCreation)
 
 router.post("/cowin/getOtp", CowinController.getOtp)
 
